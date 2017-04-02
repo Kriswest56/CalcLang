@@ -20,7 +20,7 @@ public class Parser {
         Node statements = null;
 
         // optional global list
-        if (token.isKind("id") || token.isKind("message") || token.isKind("print") || token.isKind("newline") || token.isKind("input")) {// have statements
+        if (token.isKind("id") || token.isKind("msg") || token.isKind("print") || token.isKind("newline") || token.isKind("input")) {// have statements
             lex.putBack(token);
             statements = parseStatements();
         } else if(token.isKind("eof")){
@@ -66,7 +66,7 @@ public class Parser {
                 return new Node("statement", expr , null, null, null);
             }
 
-        } else if (token.isKind("message")){
+        } else if (token.isKind("msg")){
             Token token1 = lex.getToken();
             errorCheck(token1, "string");
             lex.putBack(token1);

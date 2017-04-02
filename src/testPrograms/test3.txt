@@ -1,4 +1,4 @@
 input "enter first: " a
 b = 3.14
 c = 1 + b*-a
-message "answer:" print c newline
+msg "answer:" print c newline

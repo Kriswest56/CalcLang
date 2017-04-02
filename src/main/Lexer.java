@@ -12,7 +12,7 @@ import java.util.*;
 import java.io.*;
 
 public class Lexer {
-    private static String[] keywords = {"message", "print", "newline", "input"};
+    private static String[] keywords = {"msg", "print", "newline", "input"};
 
     private static String[] builtInFunctions = { "sqrt", "exp", "sin", "cos"};
 
