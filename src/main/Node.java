@@ -138,7 +138,24 @@ public class Node {
 
     }// draw
 
-    // a node can translate the tree rooted at it to VPL code
+    public void execute(){
+        if(this.kind.equals("eof")){
+            return;
+        } else if(this.kind.equals("program")){
+            if(first != null && first.kind.equals("statements")){
+                first.execute();
+            }
+        } else if(this.kind.equals("statements")){
+            if(second.kind.equals("eof")){
+                if(first.kind.equals("statement")){
+                    first.execute();
+                }
+            } else{
+                first.execute();
+                second.execute();
+            }
+        }
+    }
 
 
 }// Node class

@@ -69,9 +69,9 @@ public class Parser {
         } else if (token.isKind("msg")){
             Token token1 = lex.getToken();
             errorCheck(token1, "string");
-            lex.putBack(token1);
-            Node first = parseStatement();
-            return new Node("statement", new Node(token), first, null, null );
+            //lex.putBack(token1);
+            //Node first = parseStatement();
+            return new Node("statement", new Node(token), new Node(token1), null, null );
 
         } else if (token.isKind("print")){
 
@@ -222,7 +222,11 @@ public class Parser {
         } else if(token1.isKind("bif")){
 
             Node first = new Node(token1);
+            Token token = lex.getToken();
+            errorCheck(token, "single", "(");
             Node second = parseExpression();
+            Token token2 = lex.getToken();
+            errorCheck(token2, "single", ")");
             return new Node("factor", first, second, null, null);
 
         }

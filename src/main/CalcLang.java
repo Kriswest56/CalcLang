@@ -23,8 +23,6 @@ public class CalcLang {
             System.out.println(token.toString());
         } while (!token.getKind().equals("eof"));
 
-
-
         TreeViewer viewer = new TreeViewer("Parse Tree", 0, 0, 1200, 800, root);
 
     }
