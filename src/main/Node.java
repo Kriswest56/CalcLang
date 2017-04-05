@@ -139,6 +139,7 @@ public class Node {
     }// draw
 
     public void execute(){
+        System.out.println(kind + " : " + info);
         if(this.kind.equals("eof")){
             return;
         } else if(this.kind.equals("program")){

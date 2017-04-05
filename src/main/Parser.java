@@ -191,7 +191,7 @@ public class Parser {
 
             if(!token2.matches("single", "(")){
                 lex.putBack(token2);
-                return new Node(token1);
+                return new Node("factor", new Node(token1), null, null, null);
             }else{
                 errorCheck(token2, "single", "(");
                 Node first = parseExpression();
