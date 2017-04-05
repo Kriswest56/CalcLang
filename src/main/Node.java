@@ -8,6 +8,7 @@ package main;
 import java.util.ArrayList;
 import java.io.*;
 import java.awt.*;
+import java.util.Scanner;
 
 public class Node {
     public static int count = 0;  // maintain unique id for each node
@@ -21,6 +22,8 @@ public class Node {
     String nodeTwoKind = "";
     String nodeThreeKind = "";
     String nodeFourKind = "";
+
+    //public static NameIntTable table = new NameIntTable();
 
     // references to children in the parse tree
     // (uniformly use these from first to fourth)
@@ -143,11 +146,14 @@ public class Node {
     }// draw
 
     public void execute(){
-        System.out.println(kind + " : " + info);
+
+        //System.out.println(kind + " : " + info);
+
         if(this.kind.equals("eof")){
 
             /** Handle EOF node type **/
 
+            System.out.print("EOF");
             return;
         } else if(this.kind.equals("program")){
 
@@ -171,6 +177,7 @@ public class Node {
         } else if (this.kind.equals("statement")){
 
             /** Handle statement node type **/
+
             if(first != null){
                 nodeOneKind = first.kind;
             }
@@ -185,12 +192,151 @@ public class Node {
             }
 
             if(nodeOneKind.equals("msg")){
+
+                /** Handle Grammar: msg STRING **/
+
                 if(second != null && second.kind.equals("string") && second.info != null){
                     System.out.print(second.info);
                 }
+
+            } else if(nodeOneKind.equals("newline")){
+
+                /** Handle Grammar: newline **/
+
+                System.out.println();
+
+            } else if(nodeOneKind.equals("input")){
+
+                /** Handle Grammar: input STRING IDENTIFIER **/
+
+                String msg = "";
+                String id = "";
+                Scanner in = new Scanner(System.in);
+
+                if(second != null && second.kind.equals("string") && second.info != null){
+                    msg = second.info;
+                }
+
+                if(third != null && third.kind.equals("id") && third.info != null){
+                    id = third.info;
+                }
+
+                System.out.println(msg + " " + id);
+
+                double input = in.nextDouble();
+
+                NameIntTable.add(id, input);
+
+            } else if(nodeOneKind.equals("print")){
+
+                /** Handle Grammar: input STRING IDENTIFIER **/
+                if(second != null){
+                    double retVal = second.evaluate();
+                    System.out.print(retVal);
+                }
+
+            } else if (nodeOneKind.equals("id") && second != null && second.info.equals("=") && third != null && third.kind.equals("expression")){
+                String id = first.info;
+                double num = third.evaluate();
+                NameIntTable.add(id, num);
             }
 
         }
+    }
+
+    private double evaluate(){
+
+        //System.out.println(kind + " : " + info);
+
+         double retVal = 0;
+
+        if(this.kind.equals("expression")){
+
+            /**
+             Handle Grammar:
+             E -> T
+             E -> T + E
+             E -> T - E
+             **/
+
+            if(second == null){
+                retVal = first.evaluate();
+            } else{
+                if(second.kind.equals("single") && second.info.equals("+")){
+                    retVal = first.evaluate() + second.evaluate();
+                } else if(second.kind.equals("single") && second.info.equals("-")){
+                    retVal = first.evaluate() - second.evaluate();
+
+                }
+            }
+
+        } else if(this.kind.equals("term")){
+
+            /**
+             Handle Grammar:
+             T -> F
+             T -> F*T
+             T -> F/T
+             **/
+
+            if(second == null){
+                retVal = first.evaluate();
+            } else{
+                if(second.kind.equals("single") && second.info.equals("*")){
+                    retVal = first.evaluate() * second.evaluate();
+                } else if(second.kind.equals("single") && second.info.equals("/")){
+                    retVal = first.evaluate() / second.evaluate();
+
+                }
+            }
+
+        } else if(this.kind.equals("factor")){
+
+            if(second == null && first.kind.equals("num")){
+                retVal = Double.parseDouble(first.info);
+            } else if(second == null && first.kind.equals("id")){
+                retVal = NameIntTable.getNumber(first.info);
+            } else if(second != null && first.kind.equals("bif")){
+                String function = first.info;
+                retVal = second.evaluate();
+                retVal = handleBIF(retVal, function);
+            } else if(first.kind.equals("expression")){
+                retVal = first.evaluate();
+            } else if(first.kind.equals("single") && first.info.equals("-") && second != null && second.kind.equals("factor")){
+                retVal = (-1) * second.evaluate();
+            }
+
+        }
+
+         return retVal;
+    }
+
+    private double handleBIF(Double num, String bif){
+
+        double retVal = num;
+
+        if (bif.equals("sqrt")){
+
+            retVal = Math.sqrt(retVal);
+
+        } else if(bif.equals("sin")){
+
+            retVal = Math.sin(num);
+
+        } else if(bif.equals("cos")){
+
+            retVal = Math.cos(retVal);
+
+        } else if(bif.equals("exp")){
+
+            retVal = Math.exp(retVal);
+        } else{
+            System.out.println("Invalid BIF");
+            System.exit(1);
+        }
+
+        return retVal;
+
     }
 
 

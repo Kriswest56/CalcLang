@@ -3,9 +3,9 @@ package main;
 public class NameIntPair {
 
   public String name;
-  public int number;
+  public double number;
 
-  public NameIntPair( String s, int num ) {
+  public NameIntPair( String s, double num ) {
     name = s;
     number = num;
   }

@@ -1,1 +1,3 @@
-msg "answer:"
+msg "Hi"
+newline
+msg "Hello there"

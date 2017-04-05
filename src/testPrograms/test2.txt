@@ -1,3 +1,1 @@
-input "enter x to compute square root of: " x
 y = sqrt(x)
-print "square root is " y

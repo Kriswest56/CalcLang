@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 public class NameIntTable {
 
-    private ArrayList<NameIntPair> table;
+    private static ArrayList<NameIntPair> table = new ArrayList<NameIntPair>();
 
     public NameIntTable() {
         table = new ArrayList<NameIntPair>();
     }
 
     // add given name, number pair
-    public void add( String s, int num ) {
+    public static void add( String s, double num ) {
         table.add( new NameIntPair( s, num ) );
     }
 
@@ -36,7 +36,7 @@ public class NameIntTable {
         return table.get( index );
     }
 
-    public int getNumber( String target ) {
+    public static double getNumber( String target ) {
         for( NameIntPair pair : table ) {
             if( pair.name.equals(target) )
                 return pair.number;
@@ -48,7 +48,7 @@ public class NameIntTable {
         return table.get(index).name;
     }
 
-    public int getNumber( int index ) {
+    public double getNumber( int index ) {
         return table.get(index).number;
     }
 
@@ -60,7 +60,7 @@ public class NameIntTable {
 
     // this method returns cell number of an unused aux,
     // might need to make a new one if none unused
-    public int getAux() {
+    public double getAux() {
         // search for unused aux:
         for( int k=0; k<table.size(); k++ ) {
             NameIntPair pair = table.get(k);
@@ -71,8 +71,8 @@ public class NameIntTable {
         }
 
         // didn't find unused aux, make another
-        int num = 1;//Node.nextAux();
-        add( "$" + num, table.size() );
+        //int num = Node.nextAux();
+        //add( "$" + num, table.size() );
         return table.size()-1;
     }
 

@@ -84,11 +84,15 @@ public class Parser {
                 lex.putBack(token1);
                 Node expr = parseExpression();
                 return new Node("statement", new Node(token), expr, null, null);
+            } else if(token1.isKind("num")){
+                lex.putBack(token1);
+                Node expr = parseExpression();
+                return new Node("statement", new Node(token), expr, null, null);
             }
 
         } else if (token.isKind("newline")) {
 
-            return new Node(token);
+            return new Node("statement", new Node(token), null, null, null);
 
         } else if (token.isKind("input")){
 
