@@ -34,7 +34,7 @@ public class Parser {
     }
 
     private Node parseStatements() {
-        System.out.println("-----> parsing statements:");
+        //System.out.println("-----> parsing statements:");
         Node first = parseStatement();
         Node second = null;
 
@@ -52,7 +52,7 @@ public class Parser {
     }
 
     private Node parseStatement() {
-        System.out.println("-----> parsing statement:");
+        //System.out.println("-----> parsing statement:");
         Token token = lex.getToken();
 
         if (token.isKind("id")) {
@@ -112,7 +112,7 @@ public class Parser {
     }
 
     private Node parseExpression() {
-        System.out.println("-----> parsing expression:");
+        //System.out.println("-----> parsing expression:");
         Token token1 = lex.getToken();
 
         if(token1.isKind("num") || token1.isKind("id")){
@@ -150,7 +150,7 @@ public class Parser {
     }
 
     private Node parseTerm(){
-        System.out.println("-----> parsing terms:");
+        //System.out.println("-----> parsing terms:");
         Token token1 = lex.getToken();
 
         if(token1.isKind("num") || token1.isKind("id")){
@@ -185,7 +185,7 @@ public class Parser {
     }
 
     private Node parseFactor(){
-        System.out.println("-----> parsing factors:");
+        //System.out.println("-----> parsing factors:");
 
         Token token1 = lex.getToken();
 

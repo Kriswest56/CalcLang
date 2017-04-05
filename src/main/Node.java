@@ -38,7 +38,7 @@ public class Node {
         fourth = four;
         id = count;
         count++;
-        System.out.println(this);
+        //System.out.println(this);
     }
 
     // construct a node that is essentially a token
@@ -51,7 +51,7 @@ public class Node {
         fourth = null;
         id = count;
         count++;
-        System.out.println(this);
+        //System.out.println(this);
     }
 
     public String toString() {
@@ -146,8 +146,6 @@ public class Node {
     }// draw
 
     public void execute(){
-
-        System.out.println(kind + " : " + info);
 
         if(this.kind.equals("eof")){
 
@@ -249,8 +247,6 @@ public class Node {
     }
 
     private double evaluate(){
-
-        //System.out.println(kind + " : " + info);
 
          double retVal = 0;
 
