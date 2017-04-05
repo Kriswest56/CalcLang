@@ -147,7 +147,7 @@ public class Node {
 
     public void execute(){
 
-        //System.out.println(kind + " : " + info);
+        System.out.println(kind + " : " + info);
 
         if(this.kind.equals("eof")){
 
@@ -229,13 +229,17 @@ public class Node {
 
             } else if(nodeOneKind.equals("print")){
 
-                /** Handle Grammar: input STRING IDENTIFIER **/
+                /** Handle Grammar: print <expression> **/
+
                 if(second != null){
                     double retVal = second.evaluate();
                     System.out.print(retVal);
                 }
 
             } else if (nodeOneKind.equals("id") && second != null && second.info.equals("=") && third != null && third.kind.equals("expression")){
+
+                /** Handle Grammar: IDENTIFIER = <expression> **/
+
                 String id = first.info;
                 double num = third.evaluate();
                 NameIntTable.add(id, num);
@@ -263,9 +267,9 @@ public class Node {
                 retVal = first.evaluate();
             } else{
                 if(second.kind.equals("single") && second.info.equals("+")){
-                    retVal = first.evaluate() + second.evaluate();
+                    retVal = first.evaluate() + third.evaluate();
                 } else if(second.kind.equals("single") && second.info.equals("-")){
-                    retVal = first.evaluate() - second.evaluate();
+                    retVal = first.evaluate() - third.evaluate();
 
                 }
             }
@@ -283,9 +287,9 @@ public class Node {
                 retVal = first.evaluate();
             } else{
                 if(second.kind.equals("single") && second.info.equals("*")){
-                    retVal = first.evaluate() * second.evaluate();
+                    retVal = first.evaluate() * third.evaluate();
                 } else if(second.kind.equals("single") && second.info.equals("/")){
-                    retVal = first.evaluate() / second.evaluate();
+                    retVal = first.evaluate() / third.evaluate();
 
                 }
             }

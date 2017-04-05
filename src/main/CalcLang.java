@@ -27,6 +27,9 @@ public class CalcLang {
 
         root.execute();
 
+        NameIntTable.getNumber("x");
+        NameIntTable.getNumber("y");
+
     }
 
 }
