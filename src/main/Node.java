@@ -17,6 +17,10 @@ public class Node {
     private String kind;  // non-terminal or terminal category for the node
     private String info;  // extra information about the node such as
     // the actual identifier for an I
+    String nodeOneKind = "";
+    String nodeTwoKind = "";
+    String nodeThreeKind = "";
+    String nodeFourKind = "";
 
     // references to children in the parse tree
     // (uniformly use these from first to fourth)
@@ -141,12 +145,21 @@ public class Node {
     public void execute(){
         System.out.println(kind + " : " + info);
         if(this.kind.equals("eof")){
+
+            /** Handle EOF node type **/
+
             return;
         } else if(this.kind.equals("program")){
+
+            /** Handle program node type **/
+
             if(first != null && first.kind.equals("statements")){
                 first.execute();
             }
         } else if(this.kind.equals("statements")){
+
+            /** Handle statements node type **/
+
             if(second.kind.equals("eof")){
                 if(first.kind.equals("statement")){
                     first.execute();
@@ -155,6 +168,28 @@ public class Node {
                 first.execute();
                 second.execute();
             }
+        } else if (this.kind.equals("statement")){
+
+            /** Handle statement node type **/
+            if(first != null){
+                nodeOneKind = first.kind;
+            }
+            if(second != null){
+                nodeTwoKind = second.kind;
+            }
+            if(third != null){
+                nodeThreeKind = third.kind;
+            }
+            if(fourth != null){
+                nodeFourKind = fourth.kind;
+            }
+
+            if(nodeOneKind.equals("msg")){
+                if(second != null && second.kind.equals("string") && second.info != null){
+                    System.out.print(second.info);
+                }
+            }
+
         }
     }
 
