@@ -16,7 +16,13 @@ public class NameIntTable {
 
     // add given name, number pair
     public static void add( String s, double num ) {
+
+        for( NameIntPair pair : table ) {
+            if( pair.name.equals(s) )
+                pair.number = num;
+        }
         table.add( new NameIntPair( s, num ) );
+
     }
 
     public String toString() {

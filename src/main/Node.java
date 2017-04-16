@@ -147,8 +147,6 @@ public class Node {
 
     public void execute(){
 
-        System.out.println(kind + " : " + info);
-
         if(this.kind.equals("eof")){
 
             /** Handle EOF node type **/
@@ -221,7 +219,7 @@ public class Node {
                     id = third.info;
                 }
 
-                System.out.println(msg + " " + id);
+                System.out.print(msg);
 
                 double input = in.nextDouble();
 
@@ -249,8 +247,6 @@ public class Node {
     }
 
     private double evaluate(){
-
-        //System.out.println(kind + " : " + info);
 
          double retVal = 0;
 
@@ -306,6 +302,8 @@ public class Node {
                 retVal = handleBIF(retVal, function);
             } else if(first.kind.equals("expression")){
                 retVal = first.evaluate();
+            } else if(second.kind.equals("expression")){
+                retVal = second.evaluate();
             } else if(first.kind.equals("single") && first.info.equals("-") && second != null && second.kind.equals("factor")){
                 retVal = (-1) * second.evaluate();
             }

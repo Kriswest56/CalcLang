@@ -80,11 +80,11 @@ public class Parser {
             if(token1.isKind("string")){
                 Node expr = parseExpression();
                 return new Node("statement", new Node(token), new Node(token1), expr, null);
-            } else if(token1.isKind("id")){
+            } else if(token1.isKind("id") || token1.isKind("bif")){
                 lex.putBack(token1);
                 Node expr = parseExpression();
                 return new Node("statement", new Node(token), expr, null, null);
-            } else if(token1.isKind("num")){
+            } else if(token1.isKind("num") || token1.getDetails().equals("-") || token1.getDetails().equals("(")){
                 lex.putBack(token1);
                 Node expr = parseExpression();
                 return new Node("statement", new Node(token), expr, null, null);
@@ -127,7 +127,15 @@ public class Parser {
                     lex.putBack(token2);
                     lex.putBack(token1);
                     Node first = parseTerm();
-                    return new Node("expression",first, null, null, null );
+                    Token token3 = lex.getToken();
+                    if(token3.matches("single", "+") || token3.matches("single", "-")){
+                        Node second = parseExpression();
+                        return new Node("expression",first, new Node(token3), second, null );
+                    }else{
+                        lex.putBack(token3);
+                        return new Node("expression",first, null, null, null );
+                    }
+
                 }else{
                     lex.putBack(token1);
                     Node first = parseTerm();
@@ -139,7 +147,17 @@ public class Parser {
         }else if(token1.isKind("single")){
             lex.putBack(token1);
             Node first = parseTerm();
-            return new Node("expression",first, null, null, null );
+
+            Token token2 = lex.getToken();
+            if(token2.getDetails().equals("+") || token2.getDetails().equals("-")){
+                Node second = parseExpression();
+                return new Node("expression",first, new Node(token2), second, null );
+            }else{
+                lex.putBack(token2);
+                return new Node("expression",first, null, null, null );
+            }
+
+
         } else if(token1.isKind("bif")){
             lex.putBack(token1);
             Node first = parseTerm();
@@ -165,6 +183,21 @@ public class Parser {
                 lex.putBack(token1);
                 Node first = parseFactor();
                 return new Node("term",first, null, null, null );
+            } else if(token2.getDetails().equals("*") || token2.getDetails().equals("/")){
+
+                lex.putBack(token1);
+                Node first = parseFactor();
+                Node second = parseTerm();
+
+                return new Node("term",first, new Node(token2), second, null );
+
+            } else if(token2.getDetails().equals("+") || token2.getDetails().equals("-")){
+                lex.putBack(token2);
+                lex.putBack(token1);
+                Node first = parseFactor();
+
+                return new Node("term",first, null, null, null );
+
             } else{
                 lex.putBack(token1);
                 Node first = parseFactor();
@@ -174,7 +207,17 @@ public class Parser {
         } else if(token1.isKind("single")){
             lex.putBack(token1);
             Node first = parseFactor();
-            return new Node("term",first, null, null, null );
+
+            Token token2 = lex.getToken();
+            if(token2.getDetails().equals("*") || token2.getDetails().equals("/")){
+                Node second = parseTerm();
+                return new Node("term",first, new Node(token2), second, null );
+            }else{
+                lex.putBack(token2);
+                return new Node("term",first, null, null, null );
+            }
+
+
         } else if(token1.isKind("bif")){
             lex.putBack(token1);
             Node first = parseFactor();
@@ -191,6 +234,8 @@ public class Parser {
 
         if(token1.isKind("id")){
 
+            return new Node("factor", new Node(token1), null, null, null);
+            /*
             Token token2 = lex.getToken();
 
             if(!token2.matches("single", "(")){
@@ -203,7 +248,7 @@ public class Parser {
                 errorCheck(token3, "single", ")");
                 return new Node("factor", first, null, null, null);
             }
-
+               */
         } else if(token1.isKind("num")){
 
             return new Node("factor", new Node(token1), null, null, null);

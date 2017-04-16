@@ -20,15 +20,12 @@ public class CalcLang {
 
         do {
             token = lex.getNext();
-            System.out.println(token.toString());
+            //System.out.println(token.toString());
         } while (!token.getKind().equals("eof"));
 
         //TreeViewer viewer = new TreeViewer("Parse Tree", 0, 0, 1200, 800, root);
 
         root.execute();
-
-        NameIntTable.getNumber("x");
-        NameIntTable.getNumber("y");
 
     }
 
